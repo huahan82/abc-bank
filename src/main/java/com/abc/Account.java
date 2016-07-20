@@ -28,6 +28,9 @@ public class Account {
 public void withdraw(double amount) {
     if (amount <= 0) {
         throw new IllegalArgumentException("amount must be greater than zero");
+    }
+    else if(amount > sumTransactions()) { //withdraw should not be more than available
+        throw new IllegalArgumentException("amount must be no more than total available amount");
     } else {
         transactions.add(new Transaction(-amount));
     }
