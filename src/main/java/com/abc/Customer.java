@@ -33,6 +33,30 @@ public class Customer {
             total += a.interestEarned();
         return total;
     }
+   public void transfer(int indexFrom, int indexTo, double transferAmount) {
+       if (indexFrom >= accounts.size() || indexTo >= accounts.size()) {
+           throw new IllegalArgumentException("Account is not in owner's list.");
+       }
+       if (transferAmount <= 0) {
+           throw new IllegalArgumentException("Transfer Amount must be > 0.");
+       }
+       Account transferFrom=accounts.get(indexFrom);
+       Account transferTo=accounts.get(indexTo);
+       if(!trans(transferFrom, transferTo, transferAmount)) {
+           throw new RuntimeException("Fail to transfer.");
+       }
+   }
+    
+   private boolean trans(Account transferFrom, Account transferTo, double transferAmount) {
+        try {
+            transferFrom.withdraw(transferAmount);
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        transferTo.deposit(transferAmount);
+        return true;
+    }
 
     public String getStatement() {
         String statement = null;
