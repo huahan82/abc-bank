@@ -1,5 +1,7 @@
 package com.abc;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,21 @@ public class Account {
         } else {
             transactions.add(new Transaction(amount));
         }
+    }
+    //check whether the count has a withdraw in 10 days
+    public boolean withdrawedRecently() {
+        Calendar calendar = Calendar.getInstance();
+        Date date = DateProvider.getInstance().now();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, -10);
+        Date cut = calendar.getTime();
+        for(int i=transactions.size()-1;i>=0;i++) {
+            Transaction transaction=transactions.get(i);
+            if(transaction.transactionDate.before(cut)) break;
+            if(transaction.amount<0)
+            return true;
+        }
+        return false;
     }
 
 public void withdraw(double amount) {
@@ -48,11 +65,8 @@ public void withdraw(double amount) {
 //                if (amount <= 4000)
 //                    return 20;
             case MAXI_SAVINGS:
-                if (amount <= 1000)
-                    return amount * 0.02;
-                if (amount <= 2000)
-                    return 20 + (amount-1000) * 0.05;
-                return 70 + (amount-2000) * 0.1;
+                if (!withdrawedRecently())
+                    return amount * 0.05;
             default:
                 return amount * 0.001;
         }
