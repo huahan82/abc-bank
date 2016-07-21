@@ -19,6 +19,40 @@ public class BankTest {
 
         assertEquals("Customer Summary\n - John (1 account)", bank.customerSummary());
     }
+    
+    @Test
+    public void customerSummary2() {
+        Bank bank = new Bank();
+        Customer john = new Customer("John");
+        john.openAccount(new Account(Account.CHECKING));
+        john.openAccount(new Account(Account.SAVINGS));
+        bank.addCustomer(john);
+        Customer chris = new Customer("Chris");
+        chris.openAccount(new Account(Account.CHECKING));
+        bank.addCustomer(chris);
+
+        assertEquals("Customer Summary\n - John (2 accounts)\n - Chris (1 account)"
+                , bank.customerSummary());
+    }
+    
+    @Test
+    public void firstCustomer() {
+        Bank bank = new Bank();
+        Customer john = new Customer("John");
+        john.openAccount(new Account(Account.CHECKING));
+        bank.addCustomer(john);
+        Customer chris = new Customer("Chris");
+        chris.openAccount(new Account(Account.CHECKING));
+        bank.addCustomer(chris);
+        assertEquals("John", bank.getFirstCustomer());
+    }
+    
+    @Test
+    public void firstCustomer2() {
+        Bank bank = new Bank();
+
+        assertEquals("No Customer", bank.getFirstCustomer());
+    }
 
     @Test
     public void checkingAccount() {
@@ -65,6 +99,7 @@ public class BankTest {
         checkingAccount.deposit(3000.0);
         assertEquals(150.0, bank.totalInterestPaid(), DOUBLE_DELTA);
     }
+    
     @Test
     public void maxi_savings_account_withdraw_interest() {
         Bank bank = new Bank();
@@ -76,7 +111,8 @@ public class BankTest {
 
         assertEquals(2.0, bank.totalInterestPaid(), DOUBLE_DELTA);
     }
-        @Test
+    
+    @Test
     public void maxi_savings_account_withdraw_interest2() {
         Bank bank = new Bank();
         Account checkingAccount = new Account(Account.MAXI_SAVINGS);
@@ -91,12 +127,12 @@ public class BankTest {
         long milliseconds = calendar.getTime().getTime();
         transaction.transactionDate.setTime(milliseconds);
         checkingAccount.transactions.add(transaction);
-       // checkingAccount.withdraw(1000.0);
 
         assertEquals(100.0, bank.totalInterestPaid(), DOUBLE_DELTA);
     }
+    
   @Test
-    public void maxi_savings_account_withdraw_interest3() {
+  public void maxi_savings_account_withdraw_interest3() {
         Bank bank = new Bank();
         Account checkingAccount = new Account(Account.MAXI_SAVINGS);
         bank.addCustomer(new Customer("Bill").openAccount(checkingAccount));
@@ -110,7 +146,6 @@ public class BankTest {
         long milliseconds = calendar.getTime().getTime();
         transaction.transactionDate.setTime(milliseconds);
         checkingAccount.transactions.add(transaction);
-       // checkingAccount.withdraw(1000.0);
 
         assertEquals(2.0, bank.totalInterestPaid(), DOUBLE_DELTA);
     }

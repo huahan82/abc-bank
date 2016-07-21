@@ -55,6 +55,7 @@ public class CustomerTest {
         oscar.openAccount(new Account(Account.MAXI_SAVINGS));
         assertEquals(3, oscar.getNumberOfAccounts());
     }
+    
     @Test
     public void testTransfer() {
         Account checkingAccount = new Account(Account.CHECKING);
@@ -81,6 +82,7 @@ public class CustomerTest {
                 "\n" +
                 "Total In All Accounts $4,100.00", henry.getStatement());
     }
+    
     @Test
     public void testTransferFailure() {
         Account checkingAccount = new Account(Account.CHECKING);
@@ -105,6 +107,7 @@ public class CustomerTest {
                 "\n" +
                 "Total In All Accounts $4,100.00", henry.getStatement());
     }
+    
     @Test
     public void testTransferFailure2() {
         Account checkingAccount = new Account(Account.CHECKING);
